@@ -42,3 +42,6 @@ yarn-error.log*
 .tmp/
 .temp/
 *.tmp
+
+# PR descriptions
+PR_DESCRIPTION.md
