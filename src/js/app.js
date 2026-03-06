@@ -132,7 +132,11 @@ class App {
   showNotification(message, type = 'info') {
     // Simple console notification for now
     // TODO: Implement proper toast/notification UI
-    console[type === 'error' ? 'error' : 'log'](message);
+    if (type === 'error') {
+      console.error(message);
+    } else {
+      console.warn(message);
+    }
   }
 }
 
