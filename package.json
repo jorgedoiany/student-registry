@@ -1,0 +1,54 @@
+{
+  "name": "student-registry",
+  "version": "1.0.0",
+  "description": "A professional CRUD application for managing student records with modern development practices",
+  "main": "script.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .js,.html",
+    "lint:fix": "eslint . --ext .js,.html --fix",
+    "format": "prettier --write \"**/*.{js,css,html,md,json}\"",
+    "format:check": "prettier --check \"**/*.{js,css,html,md,json}\"",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorgedoiany/student-registry.git"
+  },
+  "keywords": [
+    "crud",
+    "student-management",
+    "vanilla-js",
+    "education",
+    "portfolio"
+  ],
+  "author": "Jorge Peguero <jorgedoiany@github.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jorgedoiany/student-registry/issues"
+  },
+  "homepage": "https://github.com/jorgedoiany/student-registry#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/ui": "^4.0.18",
+    "eslint": "^10.0.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-html": "^8.1.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.2",
+    "prettier": "^3.8.1",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
