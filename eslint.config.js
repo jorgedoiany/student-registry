@@ -6,6 +6,7 @@ export default [
   js.configs.recommended,
   {
     files: ['**/*.js', '**/*.html'],
+    ignores: ['tests/**'],
     plugins: {
       html,
     },
@@ -16,8 +17,16 @@ export default [
         console: 'readonly',
         document: 'readonly',
         window: 'readonly',
+        localStorage: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
         Event: 'readonly',
         CustomEvent: 'readonly',
+        HTMLElement: 'readonly',
+        HTMLFormElement: 'readonly',
+        HTMLInputElement: 'readonly',
       },
     },
     rules: {
@@ -29,6 +38,28 @@ export default [
       curly: ['error', 'all'],
       'no-eval': 'error',
       'no-implied-eval': 'error',
+    },
+  },
+  {
+    files: ['tests/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        vi: 'readonly',
+        global: 'readonly',
+        localStorage: 'readonly',
+        console: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
   },
   prettier,
