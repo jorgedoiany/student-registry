@@ -103,3 +103,19 @@ export function clearFormErrors(form) {
   const inputs = form.querySelectorAll('input');
   inputs.forEach(clearError);
 }
+
+/**
+ * Debounce function - delays execution until after a pause
+ * @param {Function} func - Function to debounce
+ * @param {number} delay - Delay in milliseconds
+ * @returns {Function} Debounced function
+ */
+export function debounce(func, delay = 300) {
+  let timeoutId;
+  return function debounced(...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
