@@ -22,6 +22,7 @@ export default [
         clearTimeout: 'readonly',
         setInterval: 'readonly',
         clearInterval: 'readonly',
+        requestAnimationFrame: 'readonly',
         Event: 'readonly',
         CustomEvent: 'readonly',
         HTMLElement: 'readonly',
