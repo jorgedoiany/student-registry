@@ -27,7 +27,13 @@ export class Modal {
     type = 'danger',
   } = {}) {
     return new Promise((resolve) => {
+      // Destroy existing modal first (before setting new callback)
+      this.destroy();
+
+      // Now set the new callback
       this.resolveCallback = resolve;
+
+      // Show the modal
       this.show(title, message, confirmText, cancelText, type);
     });
   }
@@ -37,8 +43,7 @@ export class Modal {
    * @private
    */
   show(title, message, confirmText, cancelText, type) {
-    // Remove existing modal if any
-    this.destroy();
+    // Don't destroy here anymore - it's done in confirm()
 
     // Create modal structure
     this.modal = document.createElement('div');
