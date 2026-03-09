@@ -6,7 +6,9 @@
 import StudentService from './services/StudentService.js';
 import StudentForm from './components/StudentForm.js';
 import StudentTable from './components/StudentTable.js';
-import { getElementById } from './utils/dom.js';
+import { toast } from './components/Toast.js';
+import { modal } from './components/Modal.js';
+import { getElementById, debounce } from './utils/dom.js';
 
 class App {
   constructor() {
@@ -22,9 +24,12 @@ class App {
   initializeComponents() {
     const formElement = getElementById('record-form');
     const tableBody = getElementById('record-list');
+    const searchInput = getElementById('search-input');
 
     this.form = new StudentForm(formElement);
     this.table = new StudentTable(tableBody);
+    this.searchInput = searchInput;
+    this.searchQuery = '';
   }
 
   /**
@@ -44,6 +49,15 @@ class App {
     // Table delete handler
     this.table.setDeleteHandler((studentId, studentName) => {
       this.handleDelete(studentId, studentName);
+    });
+
+    // Search handler with debounce
+    const debouncedSearch = debounce((query) => {
+      this.handleSearch(query);
+    }, 300);
+
+    this.searchInput.addEventListener('input', (e) => {
+      debouncedSearch(e.target.value);
     });
   }
 
@@ -98,10 +112,14 @@ class App {
    * @param {number} studentId - Student ID
    * @param {string} studentName - Student name for confirmation
    */
-  handleDelete(studentId, studentName) {
-    const confirmed = window.confirm(
-      `Are you sure you want to delete ${studentName}?`
-    );
+  async handleDelete(studentId, studentName) {
+    const confirmed = await modal.confirm({
+      title: 'Delete Student',
+      message: `Are you sure you want to delete ${studentName}? This action cannot be undone.`,
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      type: 'danger',
+    });
 
     if (confirmed) {
       const result = this.studentService.deleteStudent(studentId);
@@ -109,34 +127,44 @@ class App {
       if (result.success) {
         this.form.reset();
         this.render();
-        this.showNotification('Student deleted successfully', 'success');
+        toast.success('Student deleted successfully');
       } else {
-        this.showNotification('Error deleting student', 'error');
+        toast.error('Error deleting student');
       }
     }
+  }
+
+  /**
+   * Handle search input
+   * @param {string} query - Search query
+   */
+  handleSearch(query) {
+    this.searchQuery = query.trim();
+    this.render();
   }
 
   /**
    * Render the application
    */
   render() {
-    const students = this.studentService.getAllStudents();
+    let students;
+
+    if (this.searchQuery) {
+      students = this.studentService.searchStudents(this.searchQuery);
+    } else {
+      students = this.studentService.getAllStudents();
+    }
+
     this.table.render(students);
   }
 
   /**
    * Show notification message
    * @param {string} message - Notification message
-   * @param {string} type - Notification type (success, error, info)
+   * @param {string} type - Notification type (success, error, warning, info)
    */
   showNotification(message, type = 'info') {
-    // Simple console notification for now
-    // TODO: Implement proper toast/notification UI
-    if (type === 'error') {
-      console.error(message);
-    } else {
-      console.warn(message);
-    }
+    toast[type](message);
   }
 }
 
